@@ -1,15 +1,68 @@
 /* ───────────────────────────────────────────────────────────
-   This is a deliberately minimal base. It exists so the starter
-   looks clean out of the box, not so you keep it. Rip it out and
-   make it yours. The only rules worth keeping are the .spline-hero
-   ones near the bottom, which make the poster/scene crossfade work.
+   Design tokens synced from the Claude Design project
+   (dyeary design system → ui_kits/portfolio).
    ─────────────────────────────────────────────────────────── */
 
+/* Inria Serif — the single family used across the site (display + body). */
+@import url("https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap");
+
 :root {
-  --bg: #0a0a0a;
-  --fg: #f5f5f0;
-  --muted: #8a8a85;
-  --maxw: 1100px;
+  /* ── Named palette ── */
+  --bone: #f9e7cf;
+  --almond: #edd2b9;
+  --fog-sage: #c3c9ca;
+  --dusty-sage: #969790;
+  --terracotta: #b95f30;
+  --amber: #d68d56;
+  --cobalt: #205493;
+  --ink-navy: #112d4e;
+  --umber: #7a3b22;
+
+  /* ── Page values ── */
+  --paper: #ffffff;
+  --ink: #000000;
+  --ink-muted: #959595;
+  --tint-fade: #fdeed8; /* hero fade-to color — blends into the video's top edge */
+
+  /* ── Semantic aliases ── */
+  --surface-page: var(--paper);
+  --surface-tint: var(--tint-fade);
+  --text-primary: var(--ink);
+  --text-muted: var(--ink-muted);
+  --accent: var(--terracotta);
+  --accent-strong: var(--umber);
+  --link: var(--cobalt);
+  --link-hover: var(--ink-navy);
+  --hairline: rgba(0, 0, 0, 0.15);
+
+  /* ── Typography — one family, two weights ── */
+  --font-serif: "Inria Serif", ui-serif, Georgia, "Times New Roman", serif;
+  --text-display: 80px; /* hero title, weight 700, line-height 100% */
+  --text-title: 40px; /* section titles, weight 700 */
+  --text-lead: 24px; /* subtitle / lead, weight 400, line-height 100% */
+  --text-body: 20px; /* paragraph text, weight 400 */
+  --text-caption: 16px; /* small meta */
+  --lh-tight: 100%;
+  --lh-body: 155%;
+  --weight-regular: 400;
+  --weight-bold: 700;
+
+  /* ── Spacing ── */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 20px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --space-6: 70px;
+
+  /* ── Effects ── */
+  --fade-to-tint: linear-gradient(
+    180deg,
+    rgba(253, 238, 216, 0) 0%,
+    #fdeed8 100%
+  );
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration: 240ms;
 }
 
 * {
@@ -19,123 +72,70 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
 }
 
 body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
-  line-height: 1.5;
+  margin: 0;
+  background: var(--paper);
+  color: var(--text-primary);
+  font-family: var(--font-serif);
   -webkit-font-smoothing: antialiased;
 }
 
 a {
-  color: inherit;
+  color: var(--link);
   text-decoration: none;
 }
-
-/* ── Hero ──────────────────────────────────────────────────── */
-.hero {
-  position: relative;
-  min-height: 100svh;
-  display: flex;
-  align-items: flex-end;
+a:hover {
+  color: var(--link-hover);
 }
 
-.hero__copy {
-  position: relative;
-  z-index: 2;
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 0 24px 12vh;
-  width: 100%;
+/* Work list rows — title tints to the company's brand color on hover */
+.work-title {
+  transition: color 200ms ease;
+  cursor: pointer;
+}
+li:hover .work-title {
+  color: var(--work-hover);
 }
 
-.hero__copy h1 {
-  font-size: clamp(2rem, 6vw, 4.5rem);
-  font-weight: 500;
-  letter-spacing: -0.02em;
+/* SCROLL cue bounce: one big bounce, then diminishing ones, then rest */
+@keyframes bounce-soft {
+  0% {
+    transform: translateY(0);
+  }
+  12% {
+    transform: translateY(16px);
+  }
+  24% {
+    transform: translateY(0);
+  }
+  34% {
+    transform: translateY(8px);
+  }
+  44% {
+    transform: translateY(0);
+  }
+  52% {
+    transform: translateY(3px);
+  }
+  60% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
-
-/* ── Work ──────────────────────────────────────────────────── */
-.work {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 12vh 24px;
-}
-
-.work__list {
-  list-style: none;
-}
-
-.work__item {
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.work__link {
-  display: block;
-  padding: 40px 0;
-  transition: opacity 0.2s ease;
-}
-
-.work__link:hover {
-  opacity: 0.6;
-}
-
-.work__title {
-  font-size: clamp(1.5rem, 4vw, 2.75rem);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
-
-.work__blurb {
-  color: var(--muted);
-  max-width: 46ch;
-  margin-top: 8px;
-}
-
-/* ── Contact ───────────────────────────────────────────────── */
-.contact {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 0 24px 12vh;
-  color: var(--muted);
-}
-
-.contact a {
-  color: var(--fg);
-  border-bottom: 1px solid currentColor;
-}
-
-/* ── Spline hero mechanics (keep these) ────────────────────── */
-.spline-hero {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  overflow: hidden;
-}
-
-/* Make both the 3D canvas and Spline's auto-generated poster fill the hero. */
-.spline-hero > * {
-  width: 100%;
-  height: 100%;
-}
-
-.spline-hero canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.spline-hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.bounce-soft {
+  animation: bounce-soft 2.6s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
-    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+  .bounce-soft {
+    animation: none;
   }
 }
