@@ -2,6 +2,7 @@
 
 import React from "react";
 import type { CSSProperties } from "react";
+import { useLenis } from "lenis/react";
 
 const WORK = [
   { title: "dyeary.ai", role: "Built & designed end to end", hover: "#8A5A24" },
@@ -16,8 +17,11 @@ function Statement() {
   const TEXT =
     "From idea to launch. I bring apps to life with high craft, delightful interactions, and backed by data. I've created design systems from scratch, built apps end to end, sweat the details, and vibe code the day away.";
   const words = TEXT.split(" ");
-  const ref = React.useRef<HTMLElement>(null);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const dogPlayed = React.useRef(false);
   const [progress, setProgress] = React.useState(0);
+  const [dogVisible, setDogVisible] = React.useState(false);
 
   React.useEffect(() => {
     let raf = 0;
@@ -28,8 +32,21 @@ function Statement() {
         if (!el) return;
         const r = el.getBoundingClientRect();
         const total = r.height - window.innerHeight;
-        const p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 1;
+        const raw = total > 0 ? -r.top / total : 1;
+        const p = Math.min(1, Math.max(0, raw));
         setProgress(p);
+
+        // The dog's run is baked into the video (one left-to-right pass).
+        // Play it once when the reader is inside the statement. The video is
+        // sticky-bottom: pinned to the viewport during the statement, then it
+        // settles in flow directly above the footer and finishes its run
+        // there. Never loops, never re-triggers.
+        const v = videoRef.current;
+        if (v && raw > 0.1 && !dogPlayed.current) {
+          dogPlayed.current = true;
+          setDogVisible(true);
+          v.play().catch(() => {});
+        }
       });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -42,26 +59,20 @@ function Statement() {
 
   const lit = Math.floor(progress * words.length);
   return (
-    <section
-      ref={ref}
-      style={{
-        height: "220vh",
-        scrollSnapAlign: "start",
-        background: "var(--surface-page)",
-      }}
-    >
-      <div
-        style={{
-          position: "sticky",
-          top: 0,
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "0 var(--space-5)",
-          boxSizing: "border-box",
-        }}
-      >
+    <section style={{ background: "var(--surface-page)" }}>
+      <div ref={ref} style={{ height: "220vh" }}>
+        <div
+          style={{
+            position: "sticky",
+            top: 0,
+            height: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "0 var(--space-5)",
+            boxSizing: "border-box",
+          }}
+        >
         <p
           style={{
             margin: 0,
@@ -85,16 +96,34 @@ function Statement() {
               {w}{" "}
             </span>
           ))}
-        </p>
+          </p>
+        </div>
       </div>
+      <video
+        ref={videoRef}
+        src="/dog-run.mp4"
+        muted
+        playsInline
+        preload="auto"
+        style={{
+          position: "sticky",
+          bottom: 0,
+          display: "block",
+          width: "100%",
+          height: "auto",
+          pointerEvents: "none",
+          opacity: dogVisible ? 1 : 0,
+          transition: "opacity 300ms ease",
+        }}
+      />
     </section>
   );
 }
 
 export default function Home() {
+  const lenis = useLenis();
   const scrollToVideo = () => {
-    const el = document.getElementById("video-band");
-    if (el) window.scrollTo({ top: el.offsetTop, behavior: "smooth" });
+    lenis?.scrollTo("#video-band");
   };
 
   return (
@@ -106,7 +135,6 @@ export default function Home() {
           height: "100vh",
           minHeight: 600,
           overflow: "hidden",
-          scrollSnapAlign: "start",
           display: "flex",
           flexDirection: "column",
           gap: "var(--space-4)",
@@ -214,7 +242,6 @@ export default function Home() {
         style={{
           height: "100vh",
           minHeight: 600,
-          scrollSnapAlign: "start",
           background: "var(--ink)",
         }}
       >
@@ -237,7 +264,6 @@ export default function Home() {
       <section
         style={{
           minHeight: "100vh",
-          scrollSnapAlign: "start",
           background: "var(--surface-page)",
           display: "flex",
           flexDirection: "column",
@@ -331,7 +357,6 @@ export default function Home() {
       {/* ── Footer — terracotta block with rounded top corners ── */}
       <footer
         style={{
-          scrollSnapAlign: "end",
           background: "var(--terracotta)",
           borderRadius: "32px 32px 0 0",
           padding: "64px 80px 48px",
