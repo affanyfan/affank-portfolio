@@ -3,6 +3,7 @@
 import React from "react";
 import type { CSSProperties } from "react";
 import { useLenis } from "lenis/react";
+import Snap from "lenis/snap";
 
 const WORK = [
   { title: "dyeary.ai", role: "Built & designed end to end", hover: "#8A5A24" },
@@ -125,6 +126,18 @@ export default function Home() {
   const scrollToVideo = () => {
     lenis?.scrollTo("#video-band");
   };
+
+  // Snap only around the hero → video transition so the reel always lands
+  // full-screen. Two snap targets (hero top, video band top) with proximity
+  // snapping; the rest of the page scrolls freely.
+  React.useEffect(() => {
+    if (!lenis) return;
+    const snap = new Snap(lenis, { type: "proximity", duration: 0.7 });
+    snap.add(0);
+    const band = document.getElementById("video-band");
+    if (band) snap.addElement(band, { align: "start" });
+    return () => snap.destroy();
+  }, [lenis]);
 
   return (
     <div style={{ background: "var(--surface-page)", width: "100%" }}>
