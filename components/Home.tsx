@@ -62,18 +62,7 @@ function Statement() {
   return (
     <section style={{ background: "var(--surface-page)" }}>
       <div ref={ref} style={{ height: "220vh" }}>
-        <div
-          style={{
-            position: "sticky",
-            top: 0,
-            height: "100vh",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "0 var(--space-5)",
-            boxSizing: "border-box",
-          }}
-        >
+        <div className="statement-viewport">
         <p
           style={{
             margin: 0,
@@ -157,7 +146,7 @@ export default function Home() {
       <section
         style={{
           position: "relative",
-          height: "100vh",
+          height: "100svh",
           minHeight: 600,
           overflow: "hidden",
           display: "flex",
@@ -267,7 +256,7 @@ export default function Home() {
       <section
         id="video-band"
         style={{
-          height: "100vh",
+          height: "100svh",
           minHeight: 600,
           background: "var(--ink)",
         }}

@@ -88,6 +88,28 @@ a:hover {
   color: var(--link-hover);
 }
 
+/* Statement — sticky viewport that holds the scroll-lit paragraph.
+   svh, not vh: on iOS Safari 100vh includes the toolbar area and pushes
+   centered content below the visible screen. */
+.statement-viewport {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-5);
+  box-sizing: border-box;
+}
+/* Phones: pin the text to the top so the dog video at the bottom never
+   overlaps or cuts it off */
+@media (max-width: 640px) {
+  .statement-viewport {
+    align-items: flex-start;
+    padding-top: 12svh;
+  }
+}
+
 /* Work list rows — title tints to the company's brand color on hover */
 .work-row {
   display: flex;
