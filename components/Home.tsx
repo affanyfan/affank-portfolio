@@ -24,22 +24,6 @@ function Statement() {
   const [progress, setProgress] = React.useState(0);
   const [dogVisible, setDogVisible] = React.useState(false);
 
-  // Phones get a portrait scene (man + dog) instead of the wide running strip
-  const [isMobile, setIsMobile] = React.useState(false);
-  React.useEffect(() => {
-    const mq = window.matchMedia("(max-width: 640px)");
-    const update = () => setIsMobile(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
-
-  // Swapping src remounts the <video>; if the run was already triggered,
-  // start the newly mounted variant instead of leaving it frozen.
-  React.useEffect(() => {
-    if (dogPlayed.current) videoRef.current?.play().catch(() => {});
-  }, [isMobile]);
-
   React.useEffect(() => {
     let raf = 0;
     const onScroll = () => {
@@ -117,9 +101,8 @@ function Statement() {
         </div>
       </div>
       <video
-        key={isMobile ? "mobile" : "desktop"}
         ref={videoRef}
-        src={isMobile ? "/dog-mobile.mp4" : "/dog-run.mp4"}
+        src="/dog-run.mp4"
         muted
         playsInline
         preload="auto"
@@ -129,6 +112,8 @@ function Statement() {
           display: "block",
           width: "100%",
           height: "auto",
+          minHeight: 170,
+          objectFit: "cover",
           pointerEvents: "none",
           opacity: dogVisible ? 1 : 0,
           transition: "opacity 300ms ease",
@@ -143,6 +128,16 @@ export default function Home() {
   const scrollToVideo = () => {
     lenis?.scrollTo("#video-band");
   };
+
+  // Phones get a portrait cut of the reel; desktop keeps the wide one
+  const [isMobile, setIsMobile] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia("(max-width: 640px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   // Snap only around the hero → video transition so the reel always lands
   // full-screen. Two snap targets (hero top, video band top) with proximity
@@ -278,7 +273,8 @@ export default function Home() {
         }}
       >
         <video
-          src="/coloroptimized.mp4"
+          key={isMobile ? "reel-mobile" : "reel-desktop"}
+          src={isMobile ? "/reel-mobile.mp4" : "/coloroptimized.mp4"}
           autoPlay
           muted
           loop
