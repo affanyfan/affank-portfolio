@@ -35,12 +35,13 @@
   --link-hover: var(--ink-navy);
   --hairline: rgba(0, 0, 0, 0.15);
 
-  /* ── Typography — one family, two weights ── */
+  /* ── Typography — one family, two weights.
+     Fluid sizes: phone floor → desktop value from the design. ── */
   --font-serif: "Inria Serif", ui-serif, Georgia, "Times New Roman", serif;
-  --text-display: 80px; /* hero title, weight 700, line-height 100% */
-  --text-title: 40px; /* section titles, weight 700 */
-  --text-lead: 24px; /* subtitle / lead, weight 400, line-height 100% */
-  --text-body: 20px; /* paragraph text, weight 400 */
+  --text-display: clamp(44px, 8.5vw, 80px); /* hero title, weight 700 */
+  --text-title: clamp(28px, 5vw, 40px); /* section titles, weight 700 */
+  --text-lead: clamp(19px, 3vw, 24px); /* subtitle / lead, weight 400 */
+  --text-body: clamp(17px, 2.2vw, 20px); /* paragraph text, weight 400 */
   --text-caption: 16px; /* small meta */
   --lh-tight: 100%;
   --lh-body: 155%;
@@ -88,12 +89,44 @@ a:hover {
 }
 
 /* Work list rows — title tints to the company's brand color on hover */
+.work-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--hairline);
+  color: var(--text-primary);
+}
 .work-title {
+  font-size: clamp(26px, 4.5vw, 36px);
+  font-weight: var(--weight-bold);
+  line-height: 110%;
   transition: color 200ms ease;
   cursor: pointer;
 }
+.work-role {
+  color: var(--text-muted);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  white-space: nowrap;
+  text-align: right;
+}
 li:hover .work-title {
   color: var(--work-hover);
+}
+
+/* Phones: stack the role under the title instead of overflowing sideways */
+@media (max-width: 640px) {
+  .work-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+  .work-role {
+    white-space: normal;
+    text-align: left;
+  }
 }
 
 /* SCROLL cue bounce: one big bounce, then diminishing ones, then rest */

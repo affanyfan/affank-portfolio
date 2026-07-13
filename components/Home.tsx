@@ -24,6 +24,22 @@ function Statement() {
   const [progress, setProgress] = React.useState(0);
   const [dogVisible, setDogVisible] = React.useState(false);
 
+  // Phones get a portrait scene (man + dog) instead of the wide running strip
+  const [isMobile, setIsMobile] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia("(max-width: 640px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  // Swapping src remounts the <video>; if the run was already triggered,
+  // start the newly mounted variant instead of leaving it frozen.
+  React.useEffect(() => {
+    if (dogPlayed.current) videoRef.current?.play().catch(() => {});
+  }, [isMobile]);
+
   React.useEffect(() => {
     let raf = 0;
     const onScroll = () => {
@@ -80,7 +96,7 @@ function Statement() {
             maxWidth: 900,
             fontFamily: "var(--font-serif)",
             fontWeight: "var(--weight-bold)" as CSSProperties["fontWeight"],
-            fontSize: 40,
+            fontSize: "var(--text-title)",
             lineHeight: "150%",
             textAlign: "center",
             textWrap: "balance",
@@ -101,8 +117,9 @@ function Statement() {
         </div>
       </div>
       <video
+        key={isMobile ? "mobile" : "desktop"}
         ref={videoRef}
-        src="/dog-run.mp4"
+        src={isMobile ? "/dog-mobile.mp4" : "/dog-run.mp4"}
         muted
         playsInline
         preload="auto"
@@ -164,6 +181,7 @@ export default function Home() {
             lineHeight: "var(--lh-tight)",
             color: "var(--text-primary)",
             textAlign: "center",
+            padding: "0 var(--space-4)",
           }}
         >
           Hi, I&rsquo;m Affan
@@ -177,6 +195,7 @@ export default function Home() {
             lineHeight: "var(--lh-tight)",
             color: "var(--text-muted)",
             textAlign: "center",
+            padding: "0 var(--space-4)",
           }}
         >
           I&rsquo;m a product designer based in SF
@@ -323,42 +342,11 @@ export default function Home() {
             {WORK.map((p) => (
               <li
                 key={p.title}
-                style={
-                  {
-                    "--work-hover": p.hover,
-                    display: "flex",
-                    alignItems: "baseline",
-                    justifyContent: "space-between",
-                    gap: "var(--space-4)",
-                    padding: "var(--space-4) 0",
-                    borderBottom: "1px solid var(--hairline)",
-                    color: "var(--text-primary)",
-                  } as CSSProperties
-                }
+                className="work-row"
+                style={{ "--work-hover": p.hover } as CSSProperties}
               >
-                <span
-                  className="work-title"
-                  style={{
-                    fontSize: 36,
-                    fontWeight:
-                      "var(--weight-bold)" as CSSProperties["fontWeight"],
-                    lineHeight: "110%",
-                  }}
-                >
-                  {p.title}
-                </span>
-                <span
-                  style={{
-                    color: "var(--text-muted)",
-                    fontSize: "var(--text-body)",
-                    fontWeight:
-                      "var(--weight-regular)" as CSSProperties["fontWeight"],
-                    whiteSpace: "nowrap",
-                    textAlign: "right",
-                  }}
-                >
-                  {p.role}
-                </span>
+                <span className="work-title">{p.title}</span>
+                <span className="work-role">{p.role}</span>
               </li>
             ))}
           </ol>
@@ -372,7 +360,7 @@ export default function Home() {
         style={{
           background: "var(--terracotta)",
           borderRadius: "32px 32px 0 0",
-          padding: "64px 80px 48px",
+          padding: "64px clamp(24px, 5.5vw, 80px) 48px",
           fontFamily: "var(--font-serif)",
           color: "var(--bone)",
         }}
