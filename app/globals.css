@@ -6,6 +6,36 @@
 /* Inria Serif — the single family used across the site (display + body). */
 @import url("https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap");
 
+/* Söhne (Klim Type Foundry) — self-hosted. */
+@font-face {
+  font-family: "Söhne";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/soehne-buch.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Söhne";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/soehne-buch-kursiv.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Söhne";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/soehne-kraftig.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Söhne";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/soehne-dreiviertelfett.woff2") format("woff2");
+}
+
 :root {
   /* ── Named palette ── */
   --bone: #f9e7cf;
@@ -38,6 +68,7 @@
   /* ── Typography — one family, two weights.
      Fluid sizes: phone floor → desktop value from the design. ── */
   --font-serif: "Inria Serif", ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: "Söhne", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --text-display: clamp(44px, 8.5vw, 80px); /* hero title, weight 700 */
   --text-title: clamp(28px, 5vw, 40px); /* section titles, weight 700 */
   --text-lead: clamp(19px, 3vw, 24px); /* subtitle / lead, weight 400 */

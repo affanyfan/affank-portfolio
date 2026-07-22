@@ -7,7 +7,7 @@ import Snap from "lenis/snap";
 
 const WORK = [
   { title: "dyeary.ai", role: "Built & designed end to end", hover: "#8A5A24" },
-  { title: "reducto.ai", role: "Design Engineer", hover: "#4B163D" },
+  { title: "reducto.ai", role: "Design Engineer", hover: "#A6216F" },
   { title: "character.ai", role: "Staff Product Designer", hover: "#3E68FF" },
   { title: "Lyft", role: "Staff Product Designer", hover: "#FF00BF" },
   { title: "Meta", role: "Staff Product Designer", hover: "#0668E1" },
