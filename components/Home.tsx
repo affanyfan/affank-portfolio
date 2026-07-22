@@ -235,16 +235,17 @@ export default function Home() {
           </div>
         </div>
 
-        {/* grain: pre-baked semi-transparent noise PNG, clipped by the hero */}
+        {/* grain: pre-baked semi-transparent noise PNG, confined to the fade band */}
         <img
           src="/noise-spec.png"
           alt=""
           style={{
             position: "absolute",
             left: 0,
-            top: 0,
+            right: 0,
+            bottom: 0,
+            height: 241,
             width: "100%",
-            aspectRatio: "1 / 1",
             objectFit: "cover",
             pointerEvents: "none",
             zIndex: 3,
