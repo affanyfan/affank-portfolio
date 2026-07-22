@@ -67,7 +67,7 @@ function Statement() {
           style={{
             margin: 0,
             maxWidth: 900,
-            fontFamily: "var(--font-serif)",
+            fontFamily: "var(--font-sans)",
             fontWeight: "var(--weight-bold)" as CSSProperties["fontWeight"],
             fontSize: "var(--text-title)",
             lineHeight: "150%",
@@ -159,7 +159,7 @@ export default function Home() {
         <h1
           style={{
             margin: 0,
-            fontFamily: "var(--font-serif)",
+            fontFamily: "var(--font-sans)",
             fontWeight: "var(--weight-bold)" as CSSProperties["fontWeight"],
             fontSize: "var(--text-display)",
             lineHeight: "var(--lh-tight)",
@@ -173,7 +173,7 @@ export default function Home() {
         <p
           style={{
             margin: 0,
-            fontFamily: "var(--font-serif)",
+            fontFamily: "var(--font-sans)",
             fontWeight: "var(--weight-regular)" as CSSProperties["fontWeight"],
             fontSize: "var(--text-lead)",
             lineHeight: "var(--lh-tight)",
@@ -218,7 +218,7 @@ export default function Home() {
           >
             <span
               style={{
-                fontFamily: "var(--font-serif)",
+                fontFamily: "var(--font-sans)",
                 fontWeight: "var(--weight-bold)" as CSSProperties["fontWeight"],
                 fontSize: "var(--text-lead)",
                 lineHeight: "var(--lh-tight)",
@@ -306,7 +306,7 @@ export default function Home() {
           <h2
             style={{
               margin: 0,
-              fontFamily: "var(--font-serif)",
+              fontFamily: "var(--font-sans)",
               fontWeight: "var(--weight-bold)" as CSSProperties["fontWeight"],
               fontSize: 16,
               lineHeight: "var(--lh-tight)",
@@ -324,7 +324,7 @@ export default function Home() {
               listStyle: "none",
               display: "flex",
               flexDirection: "column",
-              fontFamily: "var(--font-serif)",
+              fontFamily: "var(--font-sans)",
               borderTop: "1px solid var(--hairline)",
             }}
           >
@@ -350,7 +350,7 @@ export default function Home() {
           background: "var(--terracotta)",
           borderRadius: "32px 32px 0 0",
           padding: "64px clamp(24px, 5.5vw, 80px) 48px",
-          fontFamily: "var(--font-serif)",
+          fontFamily: "var(--font-sans)",
           color: "var(--bone)",
         }}
       >
