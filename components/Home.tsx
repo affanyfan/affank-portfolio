@@ -16,7 +16,7 @@ const WORK = [
 /** Statement — sticky paragraph whose words light up as you scroll through the section. */
 function Statement() {
   const TEXT =
-    "From idea to launch. I bring apps to life with high craft, delightful interactions, and backed by data. I've created design systems from scratch, built apps end to end, sweat the details, and vibe code the day away.";
+    "I'm a product designer who writes the code too, which means the details survive the trip from design to production. I can be scrappy or polished, just depends on the team. I've built design systems from scratch and shipped apps to the App Store on my own. I'm your next hire.";
   const words = TEXT.split(" ");
   const ref = React.useRef<HTMLDivElement>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
@@ -249,6 +249,9 @@ export default function Home() {
             objectFit: "cover",
             pointerEvents: "none",
             zIndex: 3,
+            WebkitMaskImage:
+              "linear-gradient(to bottom, transparent 0%, black 75%)",
+            maskImage: "linear-gradient(to bottom, transparent 0%, black 75%)",
           }}
         />
       </section>
